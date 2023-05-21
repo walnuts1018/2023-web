@@ -36,6 +36,7 @@ cd ~/section02
 4. サーバーを起動します
 
 ```bash
+npm install
 npm run dev
 ```
 
