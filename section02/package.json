@@ -1,20 +1,15 @@
 {
   "name": "section02",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "reload -b"
   },
-  "dependencies": {
-    "@types/node": "20.2.1",
-    "@types/react": "18.2.6",
-    "@types/react-dom": "18.2.4",
-    "next": "13.4.3",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "typescript": "5.0.4"
+  "author": "Walnuts",
+  "license": "ISC",
+  "devDependencies": {
+    "reload": "^3.2.1"
   }
 }
