@@ -5,6 +5,121 @@
     <title>section 02 | 2023-web</title>
   </head>
   <body>
-    <p>Hello World!</p>
-  </body>
+    <form action="">
+      <div>
+        <input type="checkbox" name="can-read-lang" id="can-read-en">
+        <label for="can-read-en">英語</label>
+        <input type="checkbox" name="can-read-lang" id="can-read-ja">
+        <label for="can-read-ja">日本語</label>
+        <input type="checkbox" name="can-read-lang" id="can-read-fr">
+        <label for="can-read-fr">フランス語</label>
+      </div>
+      <div>
+        <label for="text-color">色の選択</label>
+        <input type="color" name="text-color" id="text-color">
+      </div>
+      <div>
+        <label for="birthday">生年月日</label>
+        <input type="date" name="birthday" id="birthday">
+      </div>
+      <div>
+        <label for="start-time">開始時刻</label>
+        <input type="time" name="start-time" id="start-time">
+      </div>
+      <div>
+        <label for="user-name" >氏名</label>
+        <input type="text" name="user-name" id="user-name" placeholder="山田太郎" required>
+      </div>
+      <div>
+        <label for="email-address">メールアドレス</label>
+        <input type="email" name="email-address" id="email-address">
+      </div>
+      <div>
+        <label for="age">年齢</label>
+        <input type="number" name="age" id="age">
+      </div>
+      <div>
+        <label for="profile-icon">プロフィールアイコン</label>
+        <input type="file" name="profile-icon" id="profile-icon">
+      </div>
+      <div>
+        <label for="user-password">パスワード</label>
+        <input type="password" name="user-password" id="user-password">
+      </div>
+      <div>
+        <input type="radio" name="contact" id="contact-email">
+        <label for="contact-email">メール</label>
+        <input type="radio" name="contact" id="contact-phone">
+        <label for="contact-phone">電話</label>
+      </div>
+      <div>
+        <input type="range" name="volume" id="volume">
+      </div>
+      <div>
+        <progress></progress>
+      </div>
+      <div>
+        <progress max="100" value="80"></progress>
+      </div>
+      <div>
+        <label for="address">居住地区</label>
+        <select name="address" id="address">
+          <option value="address-1">北海道</option>
+          <option value="address-2">東北</option>
+          <option value="address-3">関東</option>
+          <option value="address-4">中部</option>
+          <option value="address-5">関西</option>
+          <option value="address-6">中国</option>
+          <option value="address-7">四国</option>
+          <option value="address-7">九州・沖縄</option>
+        </select>
+      </div>
+      <div>
+        <label for="others">備考</label>
+        <textarea name="others" id="others" cols="30" rows="10" placeholder="自由に記述してください。"></textarea>
+      </div>
+      <div>
+        <input type="reset" value="リセット">
+        <input type="submit" value="送信">
+      </div>
+    </form>
+    <dl>
+      <dt>アメリカ</dt>
+      <dd>アメリカ合衆国</dd>
+    
+      <dt>イギリス</dt>
+      <dd>グレートブリテン及び北アイルランド連合王国</dd>
+    
+      <dt>日本</dt>
+      <dd>日本国</dd>
+    </dl>
+    <table>
+      <thead>
+        <tr>
+          <th>市町村</th>
+          <th>人口 (万人)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>大阪市</th>
+          <td>275</td>
+        </tr>
+        <tr>
+          <th>横浜市</th>
+          <td>372</td>
+        </tr>
+        <tr>
+          <th>名古屋市</th>
+          <td>233</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>計</th>
+          <td>880</td>
+        </tr>
+      </tfoot>
+    </table>
+    </body>
 </html>
