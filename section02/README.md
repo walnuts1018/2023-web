@@ -43,7 +43,7 @@ npm run dev
 
 自動的に開くと思います
 
-開かなければ <http://localhost:3000> にアクセス
+開かなければ <http://localhost:8080> にアクセス
 
 Hello World!と表示されていればOKです！
 
