@@ -1,0 +1,15 @@
+{
+  "name": "section02",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "reload -b"
+  },
+  "author": "Walnuts",
+  "license": "ISC",
+  "devDependencies": {
+    "reload": "^3.2.1"
+  }
+}
