@@ -1,12 +1,12 @@
-# Webサービス勉強会2023 第二回
+# Webサービス勉強会2023 第2回
 
 (2023/05/21)
 
-HTMLとCSSについて、一緒に手を動かしながら簡単におさらいしましょう！
+HTMLについて、一緒に手を動かしながら簡単におさらいしましょう！
 
 ## 準備
 
-環境構築が終わっていない人は[第一回資料](../section01/README.md)を基に構築してください。
+環境構築が終わっていない人は[第1回資料](../section01/README.md)を基に構築してください。
 
 1. Section02の追加を手元に取得します
 
@@ -71,10 +71,10 @@ code .
 
 ```html
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="ja-JP">
   <head>
     <meta charset="utf-8">
-    <title>My test page</title>
+    <title>section 02 | 2023-web</title>
   </head>
   <body>
     <p>Hello World!</p>
