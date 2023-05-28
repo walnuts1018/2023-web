@@ -457,16 +457,16 @@ JavaScriptは、ページに大して動的な変化を与えるときに使わ�
 
 ```js
 document.addEventListener('DOMContentLoaded', () => {
-  function createParagraph() {
-    const para = document.createElement('p');
-    para.textContent = 'ボタンが押されました!';
-    document.body.appendChild(para);
-  }
-
   const buttons = document.querySelectorAll('button');
 
   for (const button of buttons) {
     button.addEventListener('click', createParagraph);
+  }
+
+  function createParagraph() {
+    const p = document.createElement('p');
+    p.textContent = 'ボタンが押されました!';
+    document.body.appendChild(p);
   }
 });
 ```
@@ -492,4 +492,278 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 ```
 
-とありますね。
+とありますね。`document`はブラウザで表示されているウェブページを表しています。Webページのコンテンツは、「DOM（Document Object Model）」として表現されます。
+
+そして、`addEventListener`はターゲットで特定のイベントが起こった時に呼び出される関数を設定します。今回は、`DOMContentLoaded`、つまりページが読み込まれた時に、第二引数のコールバック関数が実行されます。
+
+コールバック関数の中身は
+
+```js
+const buttons = document.querySelectorAll('button');
+
+for (const button of buttons) {
+  button.addEventListener('click', createParagraph);
+}
+
+function createParagraph() {
+  const p = document.createElement('p');
+  p.textContent = 'ボタンが押されました!';
+  document.body.appendChild(p);
+}
+```
+
+のようになっています。
+
+まず、
+```js
+const buttons = document.querySelectorAll('button');
+```
+
+の部分では、`querySelectorAll`を使って、条件に合う要素一覧を取得しています。条件の部分はCSSでのセレクタと同じように指定してください。
+
+そしてその一覧を`buttons`という名前の変数に保存します。
+
+次に
+
+```js
+for (const button of buttons) {
+  button.addEventListener('click', createParagraph);
+}
+```
+
+`for`を使って、`buttons`の中身一つずつに処理を実行します。
+その処理内容は、`addEventListener`を使い、ボタンに対して`click`イベントが起こった時に`createParagraph`関数を実行してね、と設定することです。
+
+`createParagraph`関数はその次で定義されています。
+
+```js
+function createParagraph() {
+  const p = document.createElement('p');
+  p.textContent = 'ボタンが押されました!';
+  document.body.appendChild(p);
+}
+```
+
+まず、`document.createElement('p')`で、`<p>`要素を作り、`p`という変数に入れます。
+そして次に、`p`の`textContent`というプロパティに「ボタンが押されました!」という文字列を設定します。つまりこれは`<p>ボタンが押されました!</p>`と同じです。
+
+最後に、`document`の`<body>`に対して、`p`要素を追加します。
+
+よって、みなさんに見てもらったように、ボタンを押すと「ボタンが押されました!」がどんどん追加されるような挙動になったのです。
+
+
+さて、簡単にJavaScriptとその動きが分かったところで、[MDNの入門講座の題材](https://developer.mozilla.org/ja/docs/Learn/JavaScript/First_steps/A_first_splash)にチャレンジしてみましょう！
+
+今回は数あてゲームを作ります。ランダムに生成した1~100までの数字を10回以内に当てていくゲームです。
+
+さて、まずはHTMLを用意します
+
+`index.html`を次のように書き換えましょう。
+
+```html
+<!DOCTYPE html>
+<html lang="ja-JP">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+    <title>section 03 | 2023-web</title>
+  </head>
+  <body>
+    <h1>数字当てゲーム</h1>
+    <p>1 から 100 までの数字を当ててみて！10 回以内に当てられるでしょうか。選んだ数字が大きいか小さいかを表示します。</p>
+    <div class="form">
+      <label for="guessField">予想を入力してください: </label>
+      <input type="text" id="guessField" class="guessField" />
+      <input type="submit" value="予想を送信" class="guessSubmit" />
+    </div>
+    <div class="resultParas">
+      <p class="guesses"></p>
+      <p class="lastResult"></p>
+      <p class="lowOrHi"></p>
+    </div>
+  </body>
+</html>
+```
+
+タイトルの`h1`、ゲームの説明用の`p`、答えを投稿するフォームとそのテキスト、入力ボックス、送信ボタンを追加しました。
+
+その下の`resultParas`は結果の表示に使います。今のところその中身は空なのでブラウザでは真っ白です。
+
+さて、次に`script.js`を書き換えます。
+
+まずは今までの物を消して、以下の通りにします
+
+```js
+document.addEventListener("DOMContentLoaded", () => {
+    let randomNumber = Math.floor(Math.random() * 100) + 1;
+
+    const guesses = document.querySelector('.guesses');
+    const lastResult = document.querySelector('.lastResult');
+    const lowOrHi = document.querySelector('.lowOrHi');
+
+    const guessSubmit = document.querySelector('.guessSubmit');
+    const guessField = document.querySelector('.guessField');
+
+    let guessCount = 1;
+    let resetButton;
+
+    guessField.focus();
+});
+```
+
+色々書きましたね。`addEventListener`はさっきと同じなので置いておいて、そのコールバック関数の中身を見ていきます。
+
+まず最初に答えとなる乱数を設定します。`Math.random()`は0以上1未満の乱数を生成するので、百倍して、整数部分を取り出すことで0～99の乱数を取り出し、+1して1～100までの乱数が取り出せますね。結果は`randomNumber`に格納しておきます。
+
+次に`querySelector`で
+`<p class="guesses"></p>` 
+`<p class="lastResult"></p>` 
+`<p class="lowOrHi"></p>`
+の三つを探し出して、それぞれ変数に代入します。この要素の子要素を書き換えることでメッセージなどを表示させていきます。
+
+同じようにして、入力ボックスの`guessField`、送信ボタンの`guessSubmit`も変数に代入します。
+
+そして、`guessCount`という、予想回数を入れておく変数を作り、1を入れておきます。
+
+`resetButton`の変数も最初に作っておきます。中身はまだ空です。
+
+さて、`guessField.focus()`を入れてあげることで、ページが読み込まれたとき、自動的にカーソルが`guessField`、つまり入力欄に飛ぶようにしておきます。こうしておくと最初に入力ボックスをマウスでクリックする必要はなく、すぐに数字を入力できます。このような細かい親切設計は重要です。
+
+さて、次に`checkGuess()`関数を作ります。これは、`guessSubmit.addEventListener('click', checkGuess);`として、送信ボタンを押したときに実行される関数です。
+
+`guessField.focus();`の下に以下を追加します。
+
+```js
+function checkGuess() {
+  let userGuess = Number(guessField.value);
+  if (guessCount === 1) {
+    guesses.textContent = '前回の予想: ';
+  }
+  guesses.textContent += userGuess + ' ';
+
+  if (userGuess === randomNumber) {
+    lastResult.textContent = 'おめでとう! 正解です!';
+    lastResult.style.backgroundColor = 'green';
+    lowOrHi.textContent = '';
+    setGameOver();
+  } else if (guessCount === 10) {
+    lastResult.textContent = '!!!ゲームオーバー!!!';
+    setGameOver();
+  } else {
+    lastResult.textContent = '間違いです!';
+    lastResult.style.backgroundColor = 'red';
+    if(userGuess < randomNumber) {
+      lowOrHi.textContent='今の予想は小さすぎです!' ;
+    } else if(userGuess > randomNumber) {
+      lowOrHi.textContent = '今の予想は大きすぎです!';
+    }
+  }
+
+  guessCount++;
+  guessField.value = '';
+  guessField.focus();
+}
+
+guessSubmit.addEventListener('click', checkGuess);
+```
+長いですが一つずつ見ていきましょう。
+
+`checkGuess()`の中ではまず、`userGuess`を定義し、その中身は`Number(guessField.value)`となっています。つまり、「`guessField`=入力ボックス」の中身のテキストを数字に変換して代入しているのです。
+
+つぎに
+```js
+if (guessCount === 1) {
+  guesses.textContent = '前回の予想: ';
+}
+```
+では、`guessCount === 1`、つまり、初回の入力の時にだけ、`guesses`=`<p class="guesses">`に対して、「前回の予想: 」というテキストを追加しています。
+
+
+
+
+
+
+
+
+完成した`script.js`です！
+
+```js
+document.addEventListener("DOMContentLoaded", () => {
+    let randomNumber = Math.floor(Math.random() * 100) + 1;
+
+    const guesses = document.querySelector('.guesses');
+    const lastResult = document.querySelector('.lastResult');
+    const lowOrHi = document.querySelector('.lowOrHi');
+
+    const guessSubmit = document.querySelector('.guessSubmit');
+    const guessField = document.querySelector('.guessField');
+
+    let guessCount = 1;
+    let resetButton;
+
+    guessField.focus();
+
+    function checkGuess() {
+        let userGuess = Number(guessField.value);
+        if (guessCount === 1) {
+          guesses.textContent = '前回の予想: ';
+        }
+        guesses.textContent += userGuess + ' ';
+      
+        if (userGuess === randomNumber) {
+          lastResult.textContent = 'おめでとう! 正解です!';
+          lastResult.style.backgroundColor = 'green';
+          lowOrHi.textContent = '';
+          setGameOver();
+        } else if (guessCount === 10) {
+          lastResult.textContent = '!!!ゲームオーバー!!!';
+          setGameOver();
+        } else {
+          lastResult.textContent = '間違いです!';
+          lastResult.style.backgroundColor = 'red';
+          if(userGuess < randomNumber) {
+            lowOrHi.textContent='今の予想は小さすぎです!' ;
+          } else if(userGuess > randomNumber) {
+            lowOrHi.textContent = '今の予想は大きすぎです!';
+          }
+        }
+      
+        guessCount++;
+        guessField.value = '';
+        guessField.focus();
+      }
+
+      guessSubmit.addEventListener('click', checkGuess);
+
+      function setGameOver() {
+        guessField.disabled = true;
+        guessSubmit.disabled = true;
+        resetButton = document.createElement('button');
+        resetButton.textContent = '新しいゲームを始める';
+        document.body.appendChild(resetButton);
+        resetButton.addEventListener('click', resetGame);
+      }
+
+      function resetGame() {
+        guessCount = 1;
+      
+        const resetParas = document.querySelectorAll('.resultParas p');
+        for (let i = 0 ; i < resetParas.length ; i++) {
+          resetParas[i].textContent = '';
+        }
+      
+        resetButton.parentNode.removeChild(resetButton);
+      
+        guessField.disabled = false;
+        guessSubmit.disabled = false;
+        guessField.value = '';
+        guessField.focus();
+      
+        lastResult.style.backgroundColor = 'white';
+      
+        randomNumber = Math.floor(Math.random() * 100) + 1;
+      }
+});
+```
+
