@@ -91,7 +91,7 @@ code .
 npm run dev
 ```
 
-<http://localhost:3000> にアクセス
+<http://localhost:8080> にアクセス
 
 今日の講習会中はつけっぱにします
 
