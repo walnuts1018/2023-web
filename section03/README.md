@@ -74,6 +74,7 @@ code .
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
     <title>section 03 | 2023-web</title>
   </head>
   <body>
@@ -137,15 +138,39 @@ p {
 <!DOCTYPE html>
 <html lang="ja-JP">
   <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="style.css">
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
     <title>section 03 | 2023-web</title>
   </head>
   <body>
     <h1>2023-web 第3回</h1>
-    <p>2023-webの<span>第3回</span>です。</p>
-    <p>これは<a href="https://kmc.gr.jp/">KMC</a>が開催する春プロジェクトの一つです。</p>
-
+    <p>WebService勉強会2023の<span>第3回</span>です。</p>
+    <p>
+      これは<a href="https://kmc.gr.jp/">KMC</a
+      >が開催する春プロジェクトの一つです。
+    </p>
+    <div class="projects">
+      <h2>春プロジェクトの一覧</h2>
+      <ul>
+        <li>みんなでゲームを作る2023</li>
+        <li>お絵かきプロジェクト2023</li>
+        <li>自宅サーバー勉強会(Linux勉強会)2023</li>
+        <li>Webサービス勉強会2023</li>
+        <li>サウンドプログラミング講習会</li>
+        <li>Unity勉強会2023</li>
+        <li>DTM練習会2023</li>
+        <li>簡潔データ構造をつくろう</li>
+        <li>分散システム勉強会</li>
+        <li>プログラミング入門2023</li>
+      </ul>     
+    </div>
+    <img src="./kmc.png" alt="KMC Logo">
+    <div class="buttons">
+      <button id="button1" type="button">これはボタンです</button>
+      <button id="button2" type="button">これもボタンです</button>
+      <button id="button3" type="button">これも実はボタンです</button>
+    </div>
   </body>
 </html>
 ```
@@ -158,12 +183,12 @@ p {
 
 ```css
 body {
-  background-color: #030303;
+  background-color: #333333;
   color: white;
 }
 
 a {
-  color: #0c0c0c;
+  color: #cccccc;
   text-decoration: none;
 }
 ```
@@ -178,38 +203,44 @@ a {
 }
 ```
 
-### [idによる指定](https://developer.mozilla.org/ja/docs/Web/CSS/ID_selectors)
-
-id名の前に`#`を付けて指定します。
-
-```css
-#alert {
-  background-color: rgba(255, 192, 203, 0.3);
-  display: inline-block;
-  padding: 8px;
-}
-```
-
 ### [クラスによる指定](https://developer.mozilla.org/ja/docs/Web/CSS/Class_selectors)
 
 クラス名の前に`.`を付けて指定します。
 
 ```css
-.article-card {
+.projects {
   border-radius: 8px;
-  box-shadow: 0 0 4px #7777;
+  box-shadow: 0 0 4px #77777777;
   display: inline-block;
   padding: 8px;
+  margin: 10px;
+}
+```
+
+### [idによる指定](https://developer.mozilla.org/ja/docs/Web/CSS/ID_selectors)
+
+id名の前に`#`を付けて指定します。
+
+```css
+#button1 {
+  color: white;
+  background-color: #36b9ec;
+  box-shadow: 3px 3px 5px #77777777;
+  border-color: #00000000;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 15px;
 }
 ```
 
 ### [属性による指定](https://developer.mozilla.org/ja/docs/Web/CSS/Attribute_selectors)
 
-`[{属性名}={属性値}]`の形式で指定します。属性値が存在しない場合は、`[{属性名}]`の形式で指定します。<br>
+`[{属性名}={属性値}]`の形式で指定します。属性値が存在しない場合は、`[{属性名}]`の形式で指定します。
+
 
 ```css
-[aria-selected="true"] {
-  background-color: #7773;
+a [href="https://kmc.gr.jp/"] {
+  color: green;
 }
 ```
 
@@ -227,19 +258,7 @@ p {
 
 ```css
 p {
-  color: #eee;
-}
-```
-
-```css
-p {
-  color: rgb(34, 12, 64);
-}
-```
-
-```css
-p {
-  color: rgba(34, 12, 64, 0.6);
+  color: #eeeeee;
 }
 ```
 
@@ -248,20 +267,8 @@ p {
 要素の背景色を指定するには、[`background-color`プロパティ](https://developer.mozilla.org/ja/docs/Web/CSS/background-color)を使用します。
 
 ```css
-div {
+body {
   background-color: gray;
-}
-```
-
-```css
-div {
-  background-color: rgb(255, 255, 128); 
-}
-```
-
-```css
-div {
-  background-color: rgba(117, 190, 218, 0.5);
 }
 ```
 
@@ -271,7 +278,7 @@ div {
 フォントの指定には、[`font-family`プロパティ](https://developer.mozilla.org/ja/docs/Web/CSS/font-family)を使用します。
 
 ```css
-.article {
+p {
   font-family: Gill Sans Extrabold, sans-serif;
 }
 ```
@@ -279,19 +286,19 @@ div {
 フォントサイズの指定には、[`font-size`プロパティ](https://developer.mozilla.org/ja/docs/Web/CSS/font-size)を使用します。
 
 ```css
-.article {
+.projects {
   font-size: 12px;
 }
 ```
 
 ```css
-.article {
+.projects {
   font-size: 1.2em;
 }
 ```
 
 ```css
-.article {
+.projects {
   font-size: smaller;
 }
 ```
@@ -301,13 +308,13 @@ div {
 太字の指定には、[`font-weight`プロパティ](https://developer.mozilla.org/ja/docs/Web/CSS/font-weight)を使用します。
 
 ```css
-.title {
+h1 {
   font-weight: bold;
 }
 ```
 
 ```css
-.descriptions {
+h1 {
   font-weight: lighter;
 }
 ```
@@ -315,7 +322,7 @@ div {
 斜体の指定には、[`font-style`プロパティ](https://developer.mozilla.org/ja/docs/Web/CSS/font-style)を使用します。
 
 ```css
-.article-main {
+h1 {
   font-style: italic;
 }
 ```
@@ -326,12 +333,6 @@ div {
 
 ```css
 .message-important {
-  text-decoration: underline;
-}
-```
-
-```css
-.format-error {
   text-decoration: red wavy underline;
 }
 ```
@@ -341,24 +342,25 @@ div {
 文字間隔の指定には、[`letter-spacing`プロパティ](https://developer.mozilla.org/ja/docs/Web/CSS/letter-spacing)を使用します。
 
 ```css
-.article {
+.projects {
   letter-spacing: .2rem;
 }
 ```
 
 ```css
-.article {
+.projects {
   letter-spacing: -1px;
 }
 ```
 
 ### 行の高さ
 
-行の高さの指定には、[`line-height`プロパティ](https://developer.mozilla.org/ja/docs/Web/CSS/line-height)を使用します。<br>
+行の高さの指定には、[`line-height`プロパティ](https://developer.mozilla.org/ja/docs/Web/CSS/line-height)を使用します。
+
 `line-height`プロパティには、単位のない値を指定するのが好ましいとされています。
 
 ```css
-.article {
+.projects {
   line-height: 2;
 }
 ```
@@ -368,13 +370,13 @@ div {
 枠線の指定には、[`border`プロパティ](https://developer.mozilla.org/ja/docs/Web/CSS/border)を使用します。
 
 ```css
-.button-submit {
+.projects {
   border: 1px solid orange;
 }
 ```
 
 ```css
-.button-submit {
+.projects {
   border: thick double #32a1ce;
 }
 ```
@@ -384,31 +386,21 @@ div {
 角丸の指定には、[`border-radius`プロパティ](https://developer.mozilla.org/ja/docs/Web/CSS/border-radius)を使用します。
 
 ```css
-.card {
-  border-radius: 32px;
-}
-```
-
-```css
-.icon-header {
-  border-radius: 50%;
-}
-```
-
-```css
-.logo {
-  border-radius: 25% 10%;
+button {
+    border-radius: 32px;
 }
 ```
 
 ### 透明度
 
-要素全体の指定には、[`opacity`プロパティ](https://developer.mozilla.org/ja/docs/Web/CSS/opacity)を使用します。<br>
-このプロパティは子要素にも継承されます。<br>
+要素全体の指定には、[`opacity`プロパティ](https://developer.mozilla.org/ja/docs/Web/CSS/opacity)を使用します。
+
+このプロパティは子要素にも継承されます。
+
 背景色のみを透過したり、テキスト色のみを透過したりする場合は、背景色やテキスト色を透明度付きの色で指定してください。
 
 ```css
-[aria-disabled="true"] {
+img {
   opacity: 0.5;
 }
 ```
@@ -416,33 +408,69 @@ div {
 ### 幅・高さ
 
 ```css
-.square {
-  height: 100px;
-  width: 100px;
+img {
+  height: 250px;
+  width: 500px;
 }
 ```
 
-## もうちょっと詳しい話
+### paddingとmargin
 
-### `div`と`span`、何が違うねん
+余白を指定するプロパティに、`padding`と`margin`があります
 
-これを見れば全てが分かります。
-
-```html
-<div>div</div>
-<span>span</span>
-```
+`padding`は、枠より内側の余白を、`margin`は枠より外側の余白を指定します
+以下のcssを使うと分かりやすいでしょう。
 
 ```css
-div {
-  background-color: red;
-  height: 100px;
-  width: 100px;
+.buttons {
+  border: 2px solid orange;
 }
 
-span {
-  background-color: aqua;
-  height: 100px;
-  width: 100px;
+#button1 {
+    border: 2px solid blue;
+    margin: 0;
+    padding: 0;
+}
+
+#button2 {
+    border: 2px solid blue;
+    margin: 50px;
+    padding: 0px;
+}
+
+#button3 {
+    border: 2px solid blue;
+    margin: 0px;
+    padding: 50px;
 }
 ```
+
+CSSについてはこれくらいにしておきます。
+基本的な事項さえ理解していれば後は、「やりたいこと+CSS」で検索すれば大抵のことはできるでしょう。
+より詳しく学びたい人は [MDNのCSSの章](https://developer.mozilla.org/ja/docs/Learn/CSS) を見てみましょう。
+
+## JavaScript
+
+JavaScriptは、ページに大して動的な変化を与えるときに使われるスクリプト言語です。
+
+まずは、`index.html`と同じディレクトリにある`script.js`を次のように変更します。
+
+```js
+document.addEventListener('DOMContentLoaded', () => {
+  function createParagraph() {
+    const para = document.createElement('p');
+    para.textContent = 'ボタンが押されました!';
+    document.body.appendChild(para);
+  }
+
+  const buttons = document.querySelectorAll('button');
+
+  for (const button of buttons) {
+    button.addEventListener('click', createParagraph);
+  }
+});
+```
+
+さて、ブラウザを見てください。特に見た目では何も変わっていませんね。
+
+では、三つあるボタン、どれでもいいので押してみましょう。どうなりましたか？
