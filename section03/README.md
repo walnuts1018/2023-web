@@ -91,7 +91,7 @@ code .
 npm run dev
 ```
 
-<http://localhost:3000> にアクセス
+<http://localhost:8080> にアクセス
 
 今日の講習会中はつけっぱにします
 
@@ -679,14 +679,221 @@ if (guessCount === 1) {
 ```
 では、`guessCount === 1`、つまり、初回の入力の時にだけ、`guesses`=`<p class="guesses">`に対して、「前回の予想: 」というテキストを追加しています。
 
+次に、`guesses.textContent += userGuess + ' ';`
+の部分で、もともとの`guesses.textContent`の中身に`userGuess`つまり、ユーザーから受け付けた数字を追記します。こうすると前回予想した数字が羅列されるのでわかりやすいですね。
+
+次は、クソ長条件分岐ですね。
+
+```js
+if (userGuess === randomNumber) {
+  lastResult.textContent = 'おめでとう! 正解です!';
+  lastResult.style.backgroundColor = 'green';
+  lowOrHi.textContent = '';
+  setGameOver();
+} else if (guessCount === 10) {
+  lastResult.textContent = '!!!ゲームオーバー!!!';
+  setGameOver();
+} else {
+  lastResult.textContent = '間違いです!';
+  lastResult.style.backgroundColor = 'red';
+  if(userGuess < randomNumber) {
+    lowOrHi.textContent='今の予想は小さすぎです!';
+  } else if(userGuess > randomNumber) {
+    lowOrHi.textContent = '今の予想は大きすぎです!';
+  }
+}
+```
+
+まず、`(userGuess === randomNumber)`の部分で、入力された数字と答えの数字が一致しているかどうかをみます。ここで等しければ、 `lastResult.textContent`、つまり`<p class="lastResult"></p>` のテキスト部分を、「おめでとう! 正解です!」に変更します。
+
+そして、`lastResult.style.backgroundColor = 'green';`の部分で背景の色を緑色にします。
+最後に、`lowOrHi.textContent = '';`によって、結果表示部分のテキストを空にしてあげます。
+
+`setGameOver()`は、ゲーム終了後のふるまいを定義した関数です。今のところまだ存在しないですが放置します。
+
+さて、正解ではなかった時、`(guessCount === 10)`を行い、試行回数が10回になったかどうかを判定します。今回は、予想は10回までという仕様だったので、`guessCount`が10になった時ゲームオーバーにします。
+
+中身は、`lastResult.textContent = '!!!ゲームオーバー!!!';`によってゲームオーバーだよ～と伝え、`setGameOver()`を実行して、ゲームを終了させます。
+
+最後にどちらに当てはまらなかった場合、つまり不正解だった場合、`lastResult.style.backgroundColor = 'red';`で背景を赤色にします。
+
+そして間違いの中にも大きすぎと小さすぎがありますね。`if(userGuess < randomNumber)`で判定します。
+
+入力が大きすぎたときは`lowOrHi.textContent='今の予想は小さすぎです!'`によって、結果を表示してあげます。
+
+逆に小さかったときは`lowOrHi.textContent = '今の予想は大きすぎです!';`とします。
+
+条件分岐を抜けたら最後に
+
+```js
+guessCount++;
+guessField.value = '';
+guessField.focus();
+```
+
+を追加します。
+
+`guessCount++`は`guessCount = guessCount + 1`と同値です。送信ボタンが押されるたびに、実行回数のカウントを進めていくのですね。
+
+そして、次の試行の際に入力ボックスに前回の数字が残っていると邪魔ですね。なので`guessField.value=''`で、中身を空にします。
+
+そして最後に`guessField.focus()`を実行して入力ボックスにフォーカスを与えてあげます。
+
+ここまでが`checkGuess()`関数でした。
+
+最後に、この関数を`addEventListener`を使って、提出ボタンに付けてあげます！
+`guessSubmit.addEventListener('click', checkGuess);`の部分ですね。
 
 
+さぁ！これで正誤判定まで完成しました！一度遊んでみましょう！！`setGameOver()`がまだ定義されていないのでエラーが出ますが無視しましょう！
+
+さて、今の状態では一度しか遊べませんね。繰り返し遊べるように変更しましょう。そのために`setGameOver()`を作ります。
+
+以下コードを`guessSubmit.addEventListener('click', checkGuess);`の下に追加しましょう。
+
+```js
+function setGameOver() {
+  guessField.disabled = true;
+  guessSubmit.disabled = true;
+  resetButton = document.createElement('button');
+  resetButton.textContent = '新しいゲームを始める';
+  document.body.appendChild(resetButton);
+  resetButton.addEventListener('click', resetGame);
+}
+```
+
+中身を見ていきます。
+
+まずは、入力ボックスと提出ボックスを無効化します！
+ゲーム終了後にも予想できたら意味がないですね。
+
+```js
+guessField.disabled = true;
+guessSubmit.disabled = true;
+```
+
+とすれば無効化されます。
+
+次にゲームのリセットボタンを追加します。
+resetButton自体の定義は上の方でしました。
+
+```js
+resetButton = document.createElement('button');
+```
+
+で新しいボタン要素を作成します。
+
+```js
+resetButton.textContent = '新しいゲームを始める';
+```
+
+そしてボタンのテキストを「新しいゲームを始める」にします。
+
+作ったボタンを
+
+```js
+document.body.appendChild(resetButton);
+```
+
+で`body`に追加してあげます。
+
+最後に
+
+```js
+resetButton.addEventListener('click', resetGame);
+```
+
+で、作ったボタンに対して、`addEventListener`でクリック時に実行するコールバック関数を指定してあげます。
+
+ここまでが`setGameOver()`関数です。
+
+さて、リセットボタンを押したときに実行される`resetGame()`も作る必要が出てきました。作りましょう！
+
+`function setGameOver() {}`
+の下に
+
+```js
+function resetGame() {
+  guessCount = 1;
+
+  const resetParas = document.querySelectorAll('.resultParas p');
+  for (let i = 0 ; i < resetParas.length ; i++) {
+    resetParas[i].textContent = '';
+  }
+
+  resetButton.parentNode.removeChild(resetButton);
+
+  guessField.disabled = false;
+  guessSubmit.disabled = false;
+  guessField.value = '';
+  guessField.focus();
+
+  lastResult.style.backgroundColor = 'white';
+
+  randomNumber = Math.floor(Math.random() * 100) + 1;
+}
+```
+
+を追記します。
+
+まず、`guessCount = 1;`で試行回数を1にリセットします。
+次に、`const resetParas = document.querySelectorAll('.resultParas p');`で、`<div class="resultParas">`の中の子要素`<p>`を検索して、その一覧を`resetParas`に入れてあげます。
+
+言い忘れていますが、`querySelectorAll`のセレクタ部分は、スペース区切りで複数設定できます。今回は`class=resultParas`かつ、`<p>`要素というものにヒットします。`class`については親要素に設定されているので、その子要素にも適用されます。
+
+```js
+  for (let i = 0 ; i < resetParas.length ; i++) {
+    resetParas[i].textContent = '';
+  }
+```
+
+の部分では、取得してきた`<p>`要素たちに対して、全てのテキストを空にしています。前回の結果のテキストなどが残っていてはいけませんからね。
+
+```js
+resetButton.parentNode.removeChild(resetButton);
+```
+
+の部分は、resetButtonを消すためのコードです。
+
+`resetButton.parentNode`で、resetButtonの親要素、つまり`<body>`を指定します。そしてそこから`removeChild(resetButton)`で、resetButtonを削除しています。
 
 
+```js
+guessField.disabled = false;
+guessSubmit.disabled = false;
+```
 
+では先ほど無効化した入力ボックスと送信ボタンを再度有効化します。`disabled`が`false`なので`enabled`ですね。
 
+あともう少しです。
 
-完成した`script.js`です！
+```js
+guessField.value = '';
+guessField.focus();
+```
+
+で、入力ボックスの中身を空にします。
+そして、最後にまたまた入力ボックスにフォーカスさせます。
+
+あ、背景の色を変更したのを忘れていましたね。元の色に戻してあげましょう。
+
+```js
+lastResult.style.backgroundColor = 'white';
+```
+これで白色に戻りました。
+
+いよいよ最後です！乱数をもう一度生成します！
+
+一番最初とほとんど同じですが、`let`を付けずに、既存の`randomNumber`を上書きするようにします。
+
+```js
+randomNumber = Math.floor(Math.random() * 100) + 1;
+```
+
+これで完成です！！！！
+何回でも無限に遊べますね！
+
+完成した`script.js`全体を以下にのせておきます！
 
 ```js
 document.addEventListener("DOMContentLoaded", () => {
@@ -767,3 +974,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 ```
 
+## 後片付け
+
+ターミナルで`Ctrl+C`、`Y`を入力してサーバーを終了させます。
